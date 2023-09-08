@@ -1,0 +1,25 @@
+export interface IBackendRes<T> {
+    error?: string | string[];
+    message: string | string[];
+    statusCode: number | string;
+    data?: T;
+    author?: string;
+}
+
+export interface IUser {
+    _id?: string;
+    fullName: string;
+    email: string;
+    password?: string;
+    phone: string;
+    // role?: {
+    //     _id: string;
+    //     name: string;
+    // }
+    //
+    // createdBy?: string;
+    // isDeleted?: boolean;
+    // deletedAt?: boolean | null;
+    // createdAt?: string;
+    // updatedAt?: string;
+}

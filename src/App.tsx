@@ -10,13 +10,16 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import RegisterPage from "./pages/register";
+import styles from './styles/app.module.scss';
 
 
 const Layout = () => (
     <>
         <div className='layout-app'>
             <Header/>
-            <Outlet/>
+            <div className={styles['content-app']}>
+                <Outlet/>
+            </div>
             <Footer/>
         </div>
     </>
