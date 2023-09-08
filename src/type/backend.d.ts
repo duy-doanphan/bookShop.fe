@@ -8,10 +8,11 @@ export interface IBackendRes<T> {
 
 export interface IUser {
     _id?: string;
-    fullName: string;
-    email: string;
+    fullName?: string;
+    username?: string;
+    email?: string;
     password?: string;
-    phone: string;
+    phone?: string;
     // role?: {
     //     _id: string;
     //     name: string;
@@ -22,4 +23,15 @@ export interface IUser {
     // deletedAt?: boolean | null;
     // createdAt?: string;
     // updatedAt?: string;
+}
+
+export interface IAccount {
+    access_token: string;
+    user: {
+        id: string;
+        email: string;
+        fullName: string;
+        role: string;
+        avatar: string;
+    }
 }

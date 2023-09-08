@@ -35,12 +35,8 @@ const RegisterPage = () => {
                 })
             }
             setIsSubmit(false)
-        }, 3000)
+        }, 1000)
     };
-
-    // const onFinishFailed = (errorInfo: any) => {
-    //     console.log('Failed:', errorInfo);
-    // };
 
     return (
         <div className={styles["register-page"]}>

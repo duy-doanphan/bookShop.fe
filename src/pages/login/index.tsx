@@ -1,18 +1,49 @@
-import {Button, Divider, Form, Input} from 'antd';
+import {Button, Divider, Form, Input, message, notification} from 'antd';
 import styles from '../../styles/auth.module.scss';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {IUser} from "../../type/backend";
+import {useEffect, useState} from "react";
+import {postLogin} from "../../services/api.ts";
 
 
-interface IFieldType {
-    email?: string;
-    password?: string;
-}
+// interface IFieldType {
+//     email?: string;
+//     password?: string;
+// }
 
 
 const LoginPage = () => {
 
-    const onFinish = (values: IFieldType) => {
-        console.log('Success:', values);
+    const navigate = useNavigate()
+    const [isSubmit, setIsSubmit] = useState<boolean>(false)
+
+
+    useEffect(() => {
+
+    }, [])
+
+    const onFinish = (values: IUser) => {
+        const {email, password} = values
+        const dataSubmit: IUser = {
+            username: email,
+            password
+        }
+        setIsSubmit(true)
+        setTimeout(async () => {
+            const res = await postLogin(dataSubmit)
+            if (res.data?.user.id) {
+                message.success('Login Successfully!')
+                navigate('/')
+            } else {
+                notification.error({
+                    message: 'Login Failed!',
+                    description:
+                        res.message && Array.isArray(res.message) ? res.message[0] : res.message,
+                    duration: 5,
+                })
+            }
+            setIsSubmit(false)
+        }, 1000)
     };
 
     // const onFinishFailed = (errorInfo: any) => {
@@ -28,7 +59,7 @@ const LoginPage = () => {
                             <h2 className={`${styles.text} ${styles["text-large"]}`}> Login to BookShop </h2>
                             < Divider/>
                         </div>
-                        <Form
+                        <Form<IUser>
                             name="basic"
                             // labelCol={{span: 24}} //whole col
                             // wrapperCol={{span: 16}}
@@ -39,7 +70,7 @@ const LoginPage = () => {
                             autoComplete="off"
                         >
 
-                            <Form.Item<IFieldType>
+                            <Form.Item
                                 labelCol={{span: 24}} //whole column
                                 label="Email"
                                 name="email"
@@ -48,7 +79,7 @@ const LoginPage = () => {
                                 <Input/>
                             </Form.Item>
 
-                            <Form.Item<IFieldType>
+                            <Form.Item
                                 labelCol={{span: 24}} //whole column
                                 label="Password"
                                 name="password"
@@ -57,7 +88,7 @@ const LoginPage = () => {
                                 <Input.Password/>
                             </Form.Item>
                             <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                                <Button type="primary" htmlType="submit" loading={true}>
+                                <Button type="primary" htmlType="submit" loading={isSubmit}>
                                     Login
                                 </Button>
                             </Form.Item>
