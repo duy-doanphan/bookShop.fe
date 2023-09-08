@@ -1,33 +1,33 @@
-import './App.css'
-import type {RootState} from './redux/store.ts'
-import {useSelector, useDispatch} from 'react-redux'
-import {decrement, increment} from './redux/slices/counterSlice.ts'
+import LoginPage from "./pages/login";
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from "react-router-dom";
 
+const Layout = () => (
+    <>
+        main page
+    </>
+);
 
-function App() {
-    const count = useSelector((state: RootState) => state.counter.value)
-    const dispatch = useDispatch()
+export default function App() {
+
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Layout/>,
+            errorElement: <div>404 not found </div>,
+        },
+        {
+            path: "/login",
+            element: <LoginPage/>,
+        },
+    ]);
+
     return (
         <>
-            <div>
-                <div>
-                    <button
-                        aria-label="Increment value"
-                        onClick={() => dispatch(increment())}
-                    >
-                        Increment
-                    </button>
-                    <span>{count}</span>
-                    <button
-                        aria-label="Decrement value"
-                        onClick={() => dispatch(decrement())}
-                    >
-                        Decrement
-                    </button>
-                </div>
-            </div>
+            <RouterProvider router={router}/>
         </>
     )
 }
 
-export default App
