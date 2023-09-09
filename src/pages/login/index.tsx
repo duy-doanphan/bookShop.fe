@@ -4,6 +4,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {IUser} from "../../type/backend";
 import {useEffect, useState} from "react";
 import {postLogin} from "../../services/api.ts";
+import {setUserLoginInfo} from "../../redux/slices/authSlice.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/hook.ts";
 
 
 // interface IFieldType {
@@ -15,11 +17,18 @@ import {postLogin} from "../../services/api.ts";
 const LoginPage = () => {
 
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated)
     const [isSubmit, setIsSubmit] = useState<boolean>(false)
 
-
+    // const user :IGetAccount = {
+    //
+    // }
     useEffect(() => {
-
+        if (isAuthenticated) {
+            // navigate('/');
+            window.location.href = '/';
+        }
     }, [])
 
     const onFinish = (values: IUser) => {
@@ -32,6 +41,8 @@ const LoginPage = () => {
         setTimeout(async () => {
             const res = await postLogin(dataSubmit)
             if (res.data?.user.id) {
+                localStorage.setItem('access_token', res.data.access_token)
+                dispatch(setUserLoginInfo(res.data.user))
                 message.success('Login Successfully!')
                 navigate('/')
             } else {

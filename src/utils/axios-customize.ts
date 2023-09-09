@@ -4,11 +4,25 @@ const baseURL = import.meta.env.VITE_BACKEND_URL
 
 const instance = axios.create({
     baseURL: baseURL,
-    timeout: 1000,
-    headers: {'X-Custom-Header': 'foobar'}
+    withCredentials: true,
+    // timeout: 1000,
+    // headers: {'X-Custom-Header': 'foobar'}
 });
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
+    if (
+        typeof window !== "undefined" &&
+        window &&
+        window.localStorage &&
+        window.localStorage.getItem("access_token")
+    ) {
+        config.headers.Authorization =
+            "Bearer " + window.localStorage.getItem("access_token");
+    }
+    if (!config.headers.Accept && config.headers["Content-Type"]) {
+        config.headers.Accept = "application/json";
+        config.headers["Content-Type"] = "application/json; charset=utf-8";
+    }
     // Do something before request is sent
 
     return config;

@@ -11,6 +11,9 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import RegisterPage from "./pages/register";
 import styles from './styles/app.module.scss';
+import {fetchAccount} from "./redux/slices/authSlice.ts";
+import {useEffect} from "react";
+import {useAppDispatch} from "./redux/hook.ts";
 
 
 const Layout = () => (
@@ -26,6 +29,17 @@ const Layout = () => (
 );
 
 export default function App() {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        // if (
+        //     window.location.pathname === '/login'
+        //     || window.location.pathname === '/register'
+        // )
+        //     return;
+        dispatch(fetchAccount())
+    }, [])
+
 
     const router = createBrowserRouter([
         {

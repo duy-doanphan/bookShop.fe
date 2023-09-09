@@ -1,3 +1,5 @@
+import {Omit} from "@reduxjs/toolkit/dist/tsHelpers";
+
 export interface IBackendRes<T> {
     error?: string | string[];
     message: string | string[];
@@ -31,7 +33,11 @@ export interface IAccount {
         id: string;
         email: string;
         fullName: string;
+        phone: string;
         role: string;
         avatar: string;
     }
+}
+
+export interface IGetAccount extends Omit<IAccount, "access_token"> {
 }
