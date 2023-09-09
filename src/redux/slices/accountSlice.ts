@@ -61,8 +61,8 @@ export const fetchAccount = createAsyncThunk('account/fetchAccount', async () =>
 //     }
 // );
 
-export const authSlice = createSlice({
-  name: 'auth',
+export const accountSlice = createSlice({
+  name: 'account',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -98,9 +98,9 @@ export const authSlice = createSlice({
   }
 })
 
-export const { setUserLoginInfo } = authSlice.actions
+export const { setUserLoginInfo } = accountSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value
 
-export default authSlice.reducer
+export default accountSlice.reducer

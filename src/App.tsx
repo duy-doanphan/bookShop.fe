@@ -8,9 +8,11 @@ import Footer from '@/components/Footer'
 import Home from '@/components/Home'
 import RegisterPage from '@/pages/register'
 import styles from '@/styles/app.module.scss'
-import { fetchAccount } from '@/redux/slices/authSlice.ts'
+import { fetchAccount } from '@/redux/slices/accountSlice.ts'
 import { useEffect } from 'react'
-import { useAppDispatch } from '@/redux/hook.ts'
+import { useAppDispatch, useAppSelector } from '@/redux/hook.ts'
+import Loading from '@/components/Loading'
+import NotFoundPage from '@/pages/NotFound'
 
 const Layout = () => (
   <>
@@ -26,13 +28,10 @@ const Layout = () => (
 
 export default function App() {
   const dispatch = useAppDispatch()
+  const isLoading = useAppSelector((state) => state.account.isLoading)
 
   useEffect(() => {
-    // if (
-    //     window.location.pathname === '/login'
-    //     || window.location.pathname === '/register'
-    // )
-    //     return;
+    // if (window.location.pathname === '/login' || window.location.pathname === '/register') return
     dispatch(fetchAccount())
   }, [dispatch])
 
@@ -40,7 +39,7 @@ export default function App() {
     {
       path: '/',
       element: <Layout />,
-      errorElement: <div>404 not found </div>,
+      errorElement: <NotFoundPage />,
       children: [
         { index: true, element: <Home /> },
         {
@@ -63,9 +62,5 @@ export default function App() {
     }
   ])
 
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  )
+  return <>{isLoading ? <Loading /> : <RouterProvider router={router} />}</>
 }

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { IUser } from '@/type/backend'
 import { useEffect, useState } from 'react'
 import { postLogin } from '@/services/api.ts'
-import { setUserLoginInfo } from '@/redux/slices/authSlice.ts'
+import { setUserLoginInfo } from '@/redux/slices/accountSlice.ts'
 import { useAppDispatch, useAppSelector } from '@/redux/hook.ts'
 
 // interface IFieldType {
@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook.ts'
 const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+  const isAuthenticated = useAppSelector((state) => state.account.isAuthenticated)
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
 
   // const user :IGetAccount = {
