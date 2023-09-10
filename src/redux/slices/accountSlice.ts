@@ -1,23 +1,23 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAccount } from '@/services/api.ts'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getAccount } from '@/services/api.ts';
 // import type {PayloadAction} from '@reduxjs/toolkit'
 // import type {RootState} from '../store.ts'
 // import axios from '../../utils/axios-customize.ts'
 
 // Define a type for the slice state
 interface IState {
-  isAuthenticated: boolean
-  isLoading: boolean
-  isRefreshToken: boolean
-  errorRefreshToken: string
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  isRefreshToken: boolean;
+  errorRefreshToken: string;
   user: {
-    id: string
-    email: string
-    fullName: string
-    phone: string
-    role: string
-    avatar: string
-  }
+    id: string;
+    email: string;
+    fullName: string;
+    phone: string;
+    role: string;
+    avatar: string;
+  };
 }
 
 // Define the initial state using that type
@@ -32,14 +32,17 @@ const initialState: IState = {
     fullName: '',
     phone: '',
     role: '',
-    avatar: ''
-  }
-}
+    avatar: '',
+  },
+};
 
-export const fetchAccount = createAsyncThunk('account/fetchAccount', async () => {
-  const response = await getAccount()
-  return response.data
-})
+export const fetchAccount = createAsyncThunk(
+  'account/fetchAccount',
+  async () => {
+    const response = await getAccount();
+    return response.data;
+  },
+);
 
 // export const register = createAsyncThunk(
 //     "auth/register",
@@ -67,40 +70,40 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     setUserLoginInfo: (state, action) => {
-      state.isAuthenticated = true
-      state.isLoading = false
-      state.user = action.payload
-    }
+      state.isAuthenticated = true;
+      state.isLoading = false;
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchAccount.pending, (state, action) => {
       if (action.payload) {
-        state.isAuthenticated = false
-        state.isLoading = true
+        state.isAuthenticated = false;
+        state.isLoading = true;
       }
-    })
+    });
 
     builder.addCase(fetchAccount.fulfilled, (state, action) => {
       if (action.payload) {
-        state.isAuthenticated = true
-        state.isLoading = false
-        state.user = action.payload.user
+        state.isAuthenticated = true;
+        state.isLoading = false;
+        state.user = action.payload.user;
       }
-    })
+    });
 
     builder.addCase(fetchAccount.rejected, (state, action) => {
       if (action.payload) {
-        state.isAuthenticated = false
-        state.isLoading = false
+        state.isAuthenticated = false;
+        state.isLoading = false;
       }
-    })
-  }
-})
+    });
+  },
+});
 
-export const { setUserLoginInfo } = accountSlice.actions
+export const { setUserLoginInfo } = accountSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value
 
-export default accountSlice.reducer
+export default accountSlice.reducer;

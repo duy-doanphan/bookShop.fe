@@ -1,9 +1,9 @@
-import { Button, Divider, Form, Input, message, notification } from 'antd'
-import styles from '../../styles/auth.module.scss'
-import { Link, useNavigate } from 'react-router-dom'
-import { postRegister } from '@/services/api.ts'
-import { IUser } from '@/type/backend'
-import { useState } from 'react'
+import { Button, Divider, Form, Input, message, notification } from 'antd';
+import styles from '../../styles/auth.module.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import { postRegister } from '@/services/api.ts';
+import { IUser } from '@/type/backend';
+import { useState } from 'react';
 
 // interface IFieldType {
 //     fullName?: string;
@@ -13,26 +13,29 @@ import { useState } from 'react'
 // }
 
 const RegisterPage = () => {
-  const navigate = useNavigate()
-  const [isSubmit, setIsSubmit] = useState<boolean>(false)
+  const navigate = useNavigate();
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const onFinish = async (values: IUser) => {
-    setIsSubmit(true)
+    setIsSubmit(true);
     setTimeout(async () => {
-      const res = await postRegister(values)
+      const res = await postRegister(values);
       if (res.data?._id) {
-        message.success('Register user Successfully!')
-        navigate('/login')
+        message.success('Register user Successfully!');
+        navigate('/login');
       } else {
         notification.error({
           message: 'Register user Failed!',
-          description: res.message && Array.isArray(res.message) ? res.message[0] : res.message,
-          duration: 5
-        })
+          description:
+            res.message && Array.isArray(res.message)
+              ? res.message[0]
+              : res.message,
+          duration: 5,
+        });
       }
-      setIsSubmit(false)
-    }, 1000)
-  }
+      setIsSubmit(false);
+    }, 1000);
+  };
 
   return (
     <div className={styles['register-page']}>
@@ -40,7 +43,10 @@ const RegisterPage = () => {
         <div className={styles.container}>
           <section className={styles.wrapper}>
             <div className={styles.heading}>
-              <h2 className={`${styles.text} ${styles['text-large']}`}> Register New User </h2>
+              <h2 className={`${styles.text} ${styles['text-large']}`}>
+                {' '}
+                Register New User{' '}
+              </h2>
               <Divider />
             </div>
             <Form<IUser>
@@ -57,7 +63,9 @@ const RegisterPage = () => {
                 labelCol={{ span: 24 }} //whole column
                 label='Full Name'
                 name='fullName'
-                rules={[{ required: true, message: 'Please input your full name!' }]}
+                rules={[
+                  { required: true, message: 'Please input your full name!' },
+                ]}
               >
                 <Input />
               </Form.Item>
@@ -66,7 +74,9 @@ const RegisterPage = () => {
                 labelCol={{ span: 24 }} //whole column
                 label='Email'
                 name='email'
-                rules={[{ required: true, message: 'Please input your email!' }]}
+                rules={[
+                  { required: true, message: 'Please input your email!' },
+                ]}
               >
                 <Input />
               </Form.Item>
@@ -75,7 +85,9 @@ const RegisterPage = () => {
                 labelCol={{ span: 24 }} //whole column
                 label='Password'
                 name='password'
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[
+                  { required: true, message: 'Please input your password!' },
+                ]}
               >
                 <Input.Password />
               </Form.Item>
@@ -84,7 +96,9 @@ const RegisterPage = () => {
                 labelCol={{ span: 24 }} //whole column
                 label='Phone'
                 name='phone'
-                rules={[{ required: true, message: 'Please input your phone!' }]}
+                rules={[
+                  { required: true, message: 'Please input your phone!' },
+                ]}
               >
                 <Input />
               </Form.Item>
@@ -107,6 +121,6 @@ const RegisterPage = () => {
         </div>
       </main>
     </div>
-  )
-}
-export default RegisterPage
+  );
+};
+export default RegisterPage;
